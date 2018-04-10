@@ -1,3 +1,5 @@
+#!/venv/bin/python3
+
 from random import randint
 import numpy as np
 
