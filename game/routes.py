@@ -1,3 +1,4 @@
+import flask
 from flask import render_template
 
 from game import app
@@ -7,6 +8,9 @@ from game import app
 def index():
     return render_template(
         'index.djhtml',
-        title = "HOME",
-        desc = "This is the begining."
     )
+
+
+@app.route('/static/<path:filepath>')
+def serve_static(filename):
+    return flask.url_for('static', filename)
