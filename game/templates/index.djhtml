@@ -11,7 +11,7 @@
                 <br>
             </div>
             <div class="text-center mt-5">
-                <button class="text-center btn btn-success clear-top btn-lg float-center">Start!!!</button>
+                <button class="text-center btn btn-success clear-top btn-lg float-center" onclick="gameStart()">Start!!!</button>
             </div>
         </div>
     </div>
