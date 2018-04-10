@@ -1,5 +1,4 @@
-#!/venv/bin/python3
 
-# main module
 from game import app
+# main module
 app.run(debug=True)
