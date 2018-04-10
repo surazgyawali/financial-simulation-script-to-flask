@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -e
+
+# * venv
+echo "* virtual environment"
+PATH_venv="venv"
+if test -d "$PATH_venv"; then
+    echo "  already configured"
+else
+    python3 -m venv "$PATH_venv"
+    source "$PATH_venv/bin/activate"
+    pip install -r requirements.txt
+fi
