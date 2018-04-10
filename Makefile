@@ -1,5 +1,5 @@
 run:
-	python app.py
+	export FLASK_APP=game.py; flask run
 
 debug:
-	python app.py -d
+	export FLASK_APP=game.py; FLASK_DEBUG=1 flask run
