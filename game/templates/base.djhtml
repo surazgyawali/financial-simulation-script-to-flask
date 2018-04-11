@@ -12,9 +12,11 @@
 </head>
 
 <body>
-
-    {% block body %}
-    {% endblock %}
+    <div id="wrap">
+        <div id="main" class="container clear-top">
+            {% block body %} {% endblock %}
+        </div>
+    </div>
     <!-- footer content -->
     <footer class="footer text-center clear-top">
         <div class="container">
