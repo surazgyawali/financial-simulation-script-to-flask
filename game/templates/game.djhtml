@@ -1,0 +1,17 @@
+{% extends "base.djhtml"%} {%block body%}
+
+<div class="text-center page-header text-info pb-5 lead">
+    <h1>
+        {{header}}
+    </h1>
+    <br>
+    <p class="lead text-dark">
+        {%for message in messages%}
+        <br> {{ message }}
+        {% endfor %}
+    </p>
+</div>
+<div class="text-center mt-5">
+        <a href="{{href}}" class="text-center btn btn-success clear-top btn-lg float-center">{{blabel}}</a>
+</div>
+{% endblock %}
