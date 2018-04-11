@@ -4,7 +4,6 @@ import numpy as np
 import flask
 from flask import render_template
 
-from game import ctrl as ctrl
 
 from game import app
 
