@@ -1,7 +1,8 @@
 <div class="my-auto lead text-dark text-center">
-    <p>
+    <p>{% if messages%}
         {%for message in messages%}
         <br>{{ message }}
         {% endfor %}
+        {% endif %}
     </p>
 </div>

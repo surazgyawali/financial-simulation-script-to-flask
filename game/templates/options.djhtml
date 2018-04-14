@@ -1,3 +1,4 @@
+{%if options%}
 <form action="/game" method='POST'>
     <div class="form-group">
         <select class="custom-select" name="selected" required>
@@ -10,3 +11,4 @@
     </div>
     <button type="submit" class="btn btn-success btn-lg">Go for it.</button>
 </form>
+{%endif%}
