@@ -1,14 +1,12 @@
-{%if options%}
-<form action="/game" method='POST'>
-    <div class="form-group">
-        <select class="custom-select" name="selected" required>
+<div class="container mx-auto text-center w-50">
+    <form action="/game" method='POST'>
+        <select class="custom-select" name="selected" required autofocus>
             <option value="" disabled selected hidden>{{question}}</option>
             {%for option in options%}
-            <option value={{loop.index}}>{{option}}</option>
+                <option value={{loop.index}}>{{option}}</option>
             {%endfor%}
         </select>
         <div class="invalid-feedback">{{ invalidFeedback }}</div>
-    </div>
-    <button type="submit" class="btn btn-success btn-lg">Go for it.</button>
-</form>
-{%endif%}
+        <button type="submit" class="btn btn-success btn-lg mt-2">Go for it.</button>
+    </form>
+</div>

@@ -1,19 +1,27 @@
 {% extends "base.djhtml"%} {%block body%}
 
-<div class="text-center page-header text-info lead">
-    <p class="h1 mt-5">
-        {{header}}
-        <br>
-    </p>
-    <br>
-    {% include "messages.djhtml" %}
-    {%include "stats.djhtml"%}
-    {% include "options.djhtml" %}
+    <div class="text-center page-header text-info lead">
+        <p class="h1 mt-5">
+            {{header}}
+            <br>
+        </p>
+    </div>
+    {% if messages%}
+        {% include "messages.djhtml" %}
+    {%endif%}
 
-</div>
-{%if blabel%}
-<div class="text-center my-auto">
-    <a href="{{href}}" class="text-center btn btn-success clear-top btn-lg float-center">{{blabel}}</a>
-</div>
-{%endif%}
+    {% if stats%}
+        {%include "stats.djhtml"%}
+    {%endif%}
+
+    {%if options%}
+        {% include "options.djhtml" %}
+    {%endif%}
+
+    {%if blabel%}
+        <div class="text-center my-auto">
+            <a href="{{href}}" class="text-center btn btn-success clear-top btn-lg float-center">{{blabel}}</a>
+        </div>
+    {%endif%}
+
 {% endblock %}

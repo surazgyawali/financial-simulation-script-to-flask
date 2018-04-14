@@ -1,8 +1,7 @@
-<div class="my-auto lead text-dark text-center">
-    <p>{% if messages%}
+<div class="my-auto lead text-dark mx-auto text-left container w-50">
+    <p>
         {%for message in messages%}
-        <br>{{ message }}
+            <br>{{ message }}
         {% endfor %}
-        {% endif %}
     </p>
 </div>

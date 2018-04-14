@@ -1,8 +1,7 @@
 <div class="my-auto lead text-dark text-center">
-    <p>{% if stats%}
-        {%for info in stats%}
-        <br>{{ info }}
-        {% endfor %}
-        {% endif %}
+    <p class  = "text-left">
+            {%for info in stats%}
+                <br>{{ info }}
+            {% endfor %}
     </p>
 </div>

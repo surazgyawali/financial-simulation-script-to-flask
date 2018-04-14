@@ -20,9 +20,9 @@ def index():
     flask.session['uid'] = randint(0,1000)
     return render_template(
         'game.djhtml',
-        header   = 'Welcome!!!',
-        messages = ['Click the Button below to start the game.'],
-        blabel   = "Let's do it!",
+        header   = 'Greetings!!!',
+        messages = ['Want to be a CEO and manage a company??','You are just a click away.'],
+        blabel   = "Let's play!",
         href     = "/welcome"
     )
 
