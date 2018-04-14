@@ -1,5 +1,6 @@
-run:
-	export FLASK_APP=game.py; flask run
+#!/usr/bin/env bash
 
 debug:
-	export FLASK_APP=game.py; FLASK_DEBUG=1 flask run
+	venv/bin/python3 run.py -d
+run:
+	venv/bin/python3 run.py
