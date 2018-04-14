@@ -1,0 +1,12 @@
+<form action="/game" method='POST'>
+    <div class="form-group">
+        <select class="custom-select" name="selected" required>
+            <option value="" disabled selected hidden>{{question}}</option>
+            {%for option in options%}
+            <option value={{loop.index}}>{{option}}</option>
+            {%endfor%}
+        </select>
+        <div class="invalid-feedback">{{ invalidFeedback }}</div>
+    </div>
+    <button type="submit" class="btn btn-success btn-lg">Go for it.</button>
+</form>
