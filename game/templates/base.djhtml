@@ -12,13 +12,13 @@
 </head>
 
 <body>
-    <div id="wrap">
-        <div id="main" class="container clear-top">
+    <div id="wrap" class="container-fluid">
+        <div id="main" class="clear-top  w-50 mx-auto">
             {% block body %} {% endblock %}
         </div>
     </div>
     <!-- footer content -->
-    <footer class="footer text-center clear-top">
+    <footer class="footer text-center clear-top fixed-bottom">
         <div class="container">
             <span class="text-muted">Bachmann Games © 2018</span>
         </div>
@@ -32,7 +32,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script src="/static/js/base.js"></script>
-
 </body>
 
 </html>

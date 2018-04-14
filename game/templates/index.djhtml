@@ -3,12 +3,12 @@
 <!-- index page body -->
 {%block body%}
 <div class="text-center page-header text-info pb-5">
-    <h1>Welcome!!!
+    <p class="h1 mt-5">Welcome!!!
         <br> Click the Button below to start the game.
-    </h1>
+    </p>
     <br>
 </div>
-<div class="text-center mt-5">
-    <a href="/game" class="text-center btn btn-success clear-top btn-lg float-center">Start!!!</a>
+<div class="text-center my-auto">
+    <a href={{href}} class="text-center btn btn-success clear-top btn-lg float-center">{{start}}</a>
 </div>
 {%endblock%}
