@@ -1,5 +1,5 @@
-from random import randint
-import numpy as np
+
+import requests
 
 import flask
 from flask import render_template
@@ -7,30 +7,31 @@ from flask import redirect
 from flask import url_for
 from flask import request
 
-
-from game import app
-
-from game.ctrl import *
-
-
+from game.app import app
 
 @app.route('/')
 @app.route('/index')
 def index():
-    flask.session['uid'] = randint(0,1000)
-    return render_template(
-        'game.djhtml',
+    flask.session.clear()
+    return flask.render_template(
+        'welcome.djhtml',
         header   = 'Greetings!!!',
         messages = ['Want to be a CEO and manage a company??','You are just a click away.'],
         blabel   = "Let's play!",
-        href     = "/welcome"
+
+        intro    = ["You are the CEO at a small start up lending platform, 'BestLending Inc.'",
+                    "Your job is to ensure the growth of the platform to profitability.",
+                    "Do this by managing the speed you grow the platform and choosing the best method of funding to minimize your company's Weighted Average Cost of Capital (WACC)."
+                    ],
+        introHeader = "Hi There!!!!",
+        introBlabel   = "Next >>",
+        id       = 'gameStart'
     )
 
-
-@app.route('/welcome')
+@app.route('/main', methods = ['GET'])
 def introPage():
     #To Do, put buyers and securitization buyers in array
-    return render_template(
+    return flask.render_template(
         'game.djhtml',
         header   = "Hi There!!!",
         messages = [
@@ -39,45 +40,58 @@ def introPage():
                     "Do this by managing the speed you grow the platform and choosing the best method of funding to minimize your company's Weighted Average Cost of Capital (WACC)."
                 ],
         blabel   = "Next >>",
-        href     = "/game"
     )
-
 
 @app.route('/game',methods = ['GET','POST'])
 def gameStart():
-    a = Buyer()
-    b = Buyer()
-    d = TrancheBuyer()
-    e = TrancheBuyer()
-    f = Facility()
-    c = Company(f)
-    economy = randint(-4,5)
-
-
-    if c.quarter > 4:
-        c.quarter = 1
-        c.year += 1
-
-    date_string = 'Q'+str(c.quarter)+' '+str(c.year)+'.'
-
-    info = [
-            "Your quarterly results came in for %s" % date_string,
-            "The economy strength is: %d" %economy,
-            "The net income was: %d"%c.netIncome,
-            "Your cash is: %d"%c.cash,
-            "The platform originated new loan UPB of: %d"%c.originations,
-            "Your burnrate was: %d"%c.burnRate,
-            "Your runway is: %d"%c.runway,
-            ""
-        ]
-
     if request.method == 'POST':
+        if flask.session.get('sessionData') is None:
+            data = requests.post(
+                flask.request.url_root +'api/game',
+            )
+            jsonData = data.json()
+            flask.session['sessionData'] = jsonData
+        else:
+            jsonData = flask.session['sessionData']
+
+        messages = jsonData['data']
+        sessid = jsonData['sessid']
+
+        return flask.render_template(
+            'game.djhtml',
+            header     = "On your command.",
+            # messages  = messages[0:3],
+            stats      = messages[3:12],
+            options    = messages[12:len(messages)-1],
+            question   = messages[len(messages)-1],
+            uri        = '/game',
+            field_name = 'main',
+        )
+
+    if request.method == 'GET':
         response = 0
-        response = int(request.form.get('selected'))
-        print(response)
+        response = request.args.get('main')
+        headerData = {
+            'sessid'  : flask.session['sessionData']['sessid'],
+            'message' : response
+        }
+        print(flask.session['sessionData']['sessid'])
+        print(headerData)
+        response = int(response)
         while response != 12:
             if response == 1:
-                return "TODO: Do The task."
+                jResponse = requests.get(
+                    flask.request.url_root +'api/game',
+                    headers = headerData
+                ).json()
+                messages = jResponse['data']
+                return flask.render_template(
+                    'game.djhtml',
+                    header     = "“Great vision without great people is irrelevant.",
+                    messages   = messages + ['Be careful: You have  to maintain the rate of contract as well as hire i.e the value could only be between -5 to 10.'],
+                    options    = [i for i in range(-5,11)],
+                    question   = "The moment has come.",
+                )
             elif response == 2:
                 return "TODO: The task."
             elif response == 3:
@@ -100,47 +114,5 @@ def gameStart():
                 return "TODO: The task."
             elif response == 13:
                 flask.flash('You sucessfully retired!!!',category='success')
+                flask.session.clear()
                 return redirect(url_for('.index'))
-            #TODO: add missing conditions
-
-
-        a.portfolio.runLoans(economy)
-        a.checkEmotions()
-
-        #Assume each of these steps is quarterly
-        c.originateLoans(economy)
-
-        c.runResids(economy)
-        d.updateHoldings()
-        f.updateFacility(c,economy)
-
-        c.updateIncomeStatement(economy)
-        c.updateBalanceSheet()
-        c.updateCashFlowStatement()
-
-        c.quarter += 1
-
-    # check something and do something here
-
-    #else show something else
-    return render_template(
-        'game.djhtml',
-        header   = "On your command!!!",
-        messages  = info,
-        question  = "What Would you like to do???",
-        options   = [
-                        "Hire/fire underwriters.",
-                        "Check platform income statement.",
-                        "Check platform balance sheet.",
-                        "Check platform cash flow statement.",
-                        "Check loan performance.",
-                        "Check loan buyer cash.",
-                        "Sell loans.",
-                        "Securitize loans.",
-                        "Sell into credit facility.",
-                        " Refinance credit facility.", #Still to do
-                        " Credit facility info.",
-                        " Move to next quarter.",
-                        " Quit.",
-                        ],
-)
