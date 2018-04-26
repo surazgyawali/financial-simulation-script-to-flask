@@ -51,9 +51,14 @@ def gameStart():
             )
             jsonData = data.json()
             flask.session['sessionData'] = jsonData
-        else:
-            jsonData = flask.session['sessionData']
 
+
+        data = requests.post(
+            flask.request.url_root +'api/game',
+            headers = {'sessid': flask.session['sessionData']['sessid']}
+        )
+        jsonData = data.json()
+        flask.session['sessionData'] = jsonData
         messages = jsonData['data']
         sessid = jsonData['sessid']
 
