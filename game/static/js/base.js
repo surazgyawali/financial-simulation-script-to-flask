@@ -1,5 +1,3 @@
-function gameStart(){
-    alert("The game is going to start!")
 
 $('#next').click(function(){
     $('#welcome').addClass("d-none")

@@ -61,7 +61,6 @@ def gameStart():
         flask.session['sessionData'] = jsonData
         messages = jsonData['data']
         sessid = jsonData['sessid']
-
         return flask.render_template(
             'game.djhtml',
             header     = "On your command.",
