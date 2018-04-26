@@ -9,7 +9,8 @@ __PKG_DESC__ = "services switches"
 
 import argparse
 
-import game# main module
+from game.app import app
+# main module
 
 
 def main():
@@ -35,11 +36,11 @@ def main():
 
 
     if opts.debug:
-        game.app.run(debug=opts.debug, host='0.0.0.0')
-        return
+            app.run(debug=opts.debug, host='0.0.0.0', port = 8000)
+            return
 
-    game.app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
-    game.app.run()
+    # game.app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
+    app.run(port=5000, host='0.0.0.0',threaded = True)
 
 
 if __name__ == '__main__':
