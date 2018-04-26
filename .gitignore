@@ -4,3 +4,4 @@
 venv/
 /heroku
 /heroku.pub
+/.vscode/tags
