@@ -1,4 +1,4 @@
-<div class="my-auto lead text-dark mx-auto text-left container w-50">
+<div id="messages" class="my-auto lead text-dark mx-auto text-center container w-80">
     <p>
         {%for message in messages%}
             <br>{{ message }}

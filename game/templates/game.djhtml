@@ -20,7 +20,7 @@
 
     {%if blabel%}
         <div class="text-center my-auto">
-            <a href="{{href}}" class="text-center btn btn-success clear-top btn-lg float-center">{{blabel}}</a>
+            <a id={{id}} href={{href | default('#')}} class="text-center btn btn-success clear-top btn-lg float-center">{{blabel}}</a>
         </div>
     {%endif%}
 
