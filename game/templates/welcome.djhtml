@@ -1,0 +1,33 @@
+{% extends "base.djhtml"%} {%block body%}
+<div id="welcome" class="">
+    <div class="text-center page-header text-info pb-5 lead">
+        <p class="h1 mt-5">
+            {{header}}
+            <br>
+        </p>
+        <br> {% include "messages.djhtml" %}
+    </div>
+    <div class="text-center my-auto">
+        <a id="next" href="#intro" class="text-center btn btn-success clear-top btn-lg float-center">{{blabel}}</a>
+    </div>
+</div>
+
+<div id="intro" class="d-none">
+    <div class="text-center page-header text-info pb-5 lead">
+        <p class="h1 mt-5">
+            {{introHeader}}
+            <br>
+        </p>
+        <div class="my-auto lead text-dark mx-auto text-center container w-80">
+            <p>
+                {%for message in intro%}
+                    <br>{{ message }}
+                {% endfor %}
+            </p>
+        </div>
+    </div>
+    <div class="text-center my-auto">
+        <a id="{{id}}" href={{href | default( '#')}} class="text-center btn btn-success clear-top btn-lg float-center">{{introBlabel}}</a>
+    </div>
+</div>
+{% endblock %}
