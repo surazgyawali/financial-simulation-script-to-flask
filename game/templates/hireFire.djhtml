@@ -1,0 +1,46 @@
+{% extends "base.djhtml"%} {%block body%}
+
+    <div class="text-center page-header text-info lead">
+        <p class="h1 mt-5">
+            {{header}}
+            <br>
+        </p>
+    </div>
+    {% if messages%}
+        {% include "messages.djhtml" %}
+        <div class="text-center text-danger">Be careful: You have  to maintain the rate of contract as well as hire i.e the value could only be between -5 to 10.</div>
+    {%endif%}
+        {% if stats%}
+            {%include "stats.djhtml"%}
+        {%endif%}
+    <div class="container mx-auto text-center w-50">
+        <form action="{{uri}}" method='GET'>
+            <select class="custom-select" name="{{field_name}}" required autofocus>
+                <option value="" disabled selected hidden>{{question}}</option>
+                <option value = -5>FIRE 5 WORKERS</option>
+                <option value = -4>FIRE 4 WORKERS</option>
+                <option value = -3>FIRE 3 WORKERS</option>
+                <option value = -2>FIRE 2 WORKERS</option>
+                <option value = -1>FIRE 1 WORKER</option>
+                <option value = 1 >HIRE 1 WORKER</option>
+                <option value = 2 >HIRE 2 WORKERS</option>
+                <option value = 3 >HIRE 3 WORKERS</option>
+                <option value = 4 >HIRE 4 WORKERS</option>
+                <option value = 5 >HIRE 5 WORKERS</option>
+                <option value = 6 >HIRE 6 WORKERS</option>
+                <option value = 7 >HIRE 7 WORKERS</option>
+                <option value = 8 >HIRE 8 WORKERS</option>
+                <option value = 9 >HIRE 9 WORKERS</option>
+                <option value = 10 >HIRE 10 WORKERS</option>
+            </select>
+            <button type="submit" class="btn btn-success btn-lg mt-2">Go for it.</button>
+        </form>
+    </div>
+
+    {%if blabel%}
+        <div class="text-center my-auto">
+            <a id={{id}} href={{href | default('#')}} class="text-center btn btn-success clear-top btn-lg float-center">{{blabel}}</a>
+        </div>
+    {%endif%}
+
+{% endblock %}
