@@ -30,6 +30,11 @@
 <body>
     <div id="wrap" class="container-fluid">
         <div id="main" class="clear-top">
+            {% if id != 'gameStart' %}
+                <a  href="/restart" class="overlap btn btn-danger m-2 float-left">
+                    RESTART
+                </a>
+            {% endif %}
             {% block body %} {% endblock %}
         </div>
     </div>
