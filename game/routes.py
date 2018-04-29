@@ -137,14 +137,46 @@ def gameStart():
                     messages   = [messages[9]],
                     **gameLoopQuestions()
                 )
+
             elif response == 3:
-                return "TODO: The task."
+                jResponse = send_get_request('3')
+                messages = jResponse['data']
+                return flask.render_template(
+                    'game.djhtml',
+                    stats    = messages[0:7],
+                    messages = [messages[7]],
+                    **gameLoopQuestions()
+                )
+
             elif response == 4:
-                return "TODO: The task."
+                jResponse = send_get_request('4')
+                messages = jResponse['data']
+                return flask.render_template(
+                    'game.djhtml',
+                    stats    = messages[0:7],
+                    messages = [messages[7]],
+                    **gameLoopQuestions()
+                )
+
             elif response == 5:
-                return "TODO: The task."
+                jResponse = send_get_request('5')
+                messages  = jResponse['data']
+                return flask.render_template(
+                    'game.djhtml',
+                    stats    = messages[0:6],
+                    messages = [messages[6]],
+                    **gameLoopQuestions()
+                )
+
             elif response == 6:
-                return "TODO: The task."
+                jResponse = send_get_request('6')
+                messages  = jResponse['data']
+                return flask.render_template(
+                    'game.djhtml',
+                    stats    = messages[0:3],
+                    messages = [messages[3]],
+                    **gameLoopQuestions()
+                )
             elif response == 7:
                 return "TODO: The task."
             elif response == 8:
