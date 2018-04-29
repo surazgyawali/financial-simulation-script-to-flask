@@ -189,4 +189,10 @@ def gameStart():
             elif response == 13:
                 flask.flash('You sucessfully retired!!!',category='success')
                 flask.session.clear()
-                return redirect(url_for('.index'))
+                return redirect(url_for('.index'))@app.route('/restart')
+
+@app.route('/restart')
+def restart():
+    flask.flash("You successfully retired.",category='success')
+    flask.session.clear()
+    return redirect('/')
