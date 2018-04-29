@@ -9,6 +9,28 @@ from flask import request
 
 from game.app import app
 
+
+def send_post_request():
+    if flask.session.get('sessionData') is None:
+        try:
+            response = requests.post(
+                flask.request.url_root +'api/game',
+            )
+        except requests.exceptions.RequestException as e:
+            return e
+
+        jsonData = response.json()
+        flask.session['sessionData'] = jsonData
+
+    try:
+        response = requests.post(
+            flask.request.url_root +'api/game',
+            headers = {'sessid': flask.session['sessionData']['sessid']}
+        )
+    except requests.exceptions.RequestException as e:
+        return e
+    jsonData = response.json()
+    return jsonData
 @app.route('/')
 @app.route('/index')
 def index():
