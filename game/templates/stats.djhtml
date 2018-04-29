@@ -1,4 +1,4 @@
-<div id="stats" class="my-auto lead text-dark text-center">
+<div id="stats" class="my-auto lead text-success text-center">
     <p class  = "text-center">
             {%for info in stats%}
                 <br>{{ info }}
