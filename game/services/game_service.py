@@ -184,8 +184,8 @@ class GameService(Thread):
 				self.message.append("Weighted Average Remaining Term: {}".format(c.portfolio.wavgRemTerm))
 				self.message.append("")
 			elif response == 6:
-				self.message.append("Buyer A cash: ", a.cash)
-				self.message.append("Buyer D cash: ", d.cash)
+				self.message.append("Buyer A cash:{} ".format(a.cash))
+				self.message.append("Buyer D cash:{} ".format(d.cash))
 				self.message.append("")
 			elif response == 7:
 				if a.purchased:
