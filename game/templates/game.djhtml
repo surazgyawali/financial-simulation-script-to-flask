@@ -6,13 +6,15 @@
             <br>
         </p>
     </div>
+    {% if stats%}
+        {%include "stats.djhtml"%}
+    {%endif%}
+
+
     {% if messages%}
         {% include "messages.djhtml" %}
     {%endif%}
 
-    {% if stats%}
-        {%include "stats.djhtml"%}
-    {%endif%}
 
     {%if options%}
         {% include "options.djhtml" %}
