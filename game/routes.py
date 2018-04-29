@@ -135,10 +135,7 @@ def gameStart():
                     header     = "Platform Income Interest",
                     stats      = messages[0:9],
                     messages   = [messages[9]],
-                    options    = messages[10:len(messages)-1],
-                    question   = messages[len(messages)-1],
-                    uri        = '/game',
-                    field_name = 'main',
+                    **gameLoopQuestions()
                 )
             elif response == 3:
                 return "TODO: The task."
