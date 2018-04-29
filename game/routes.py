@@ -31,6 +31,31 @@ def send_post_request():
         return e
     jsonData = response.json()
     return jsonData
+
+def send_get_request(response):
+    '''returns gamedata when passed response'''
+    headerData = {
+        'sessid'  : flask.session['sessionData']['sessid'],
+        'message' : response
+    }
+    try:
+        response = requests.get(
+                    flask.request.url_root +'api/game',
+                    headers = headerData
+                )
+    except requests.exceptions.RequestException as e:
+        return e
+    jResponse = response.json()
+    return jResponse
+
+def game_loop(header):
+    '''renders gameloop view with provided header parameter'''
+    return render_template(
+        'game.djhtml',
+        header     = header,
+        **gameLoopQuestions()
+    )
+
 @app.route('/')
 @app.route('/index')
 def index():
