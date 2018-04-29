@@ -56,6 +56,29 @@ def game_loop(header):
         **gameLoopQuestions()
     )
 
+def gameLoopQuestions():
+    'returns game loop questions in json/dict format'
+    return{
+            "options"   : ['Hire/fire underwriters.',
+                            'Check platform income statement.',
+                            'Check platform balance sheet.',
+                            'Check platform cash flow statement.',
+                            'Check loan performance.',
+                            'Check loan buyer cash.',
+                            'Sell loans.',
+                            'Securitize loans.',
+                            'Sell into credit facility.',
+                            'Refinance credit facility.',
+                            'Credit facility info.',
+                            'Move to next quarter.',
+                            'Quit.'
+                        ],
+            "question"  : 'Make a decision',
+            "uri"       :'/game',
+            "field_name": 'main',
+    }
+
+
 @app.route('/')
 @app.route('/index')
 def index():
