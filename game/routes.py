@@ -47,10 +47,11 @@ def send_get_request(response):
     jResponse = response.json()
     return jResponse
 
-def game_loop(header):
+def game_loop(header,messages=None):
     '''renders gameloop view with provided header parameter'''
     return render_template(
         'game.djhtml',
+        messages   = messages,
         header     = header,
         **gameLoopQuestions()
     )
