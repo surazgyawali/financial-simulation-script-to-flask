@@ -199,7 +199,6 @@ def gameStart():
             elif response == 8:
                 jResponse = send_get_request('8')
                 messages = jResponse['data']
-                # return str(messages)
                 return flask.render_template(
                     'securitizeLoans.djhtml',
                     header     = "Let's Securitize some Loans.",
@@ -213,7 +212,6 @@ def gameStart():
             elif response == 9:
                 jResponse = send_get_request('9')
                 messages  = jResponse['data']
-                # return str(messages)
                 return flask.render_template(
                     'securitizeLoans.djhtml',
                     header     = "Sell into credit facility.",
