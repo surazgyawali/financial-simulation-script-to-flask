@@ -125,19 +125,19 @@ class GameService(Thread):
 		response = 0
 		while response != 12:
 			self.message.append("What would you like to do?")
-			self.message.append("Hire/fire underwriters.")
-			self.message.append("Check platform income statement.")
-			self.message.append("Check platform balance sheet.")
-			self.message.append("Check platform cash flow statement.")
-			self.message.append("Check loan performance.")
-			self.message.append("Check loan buyer cash.")
-			self.message.append("Sell loans.")
-			self.message.append("Securitize loans.")
-			self.message.append("Sell into credit facility.")
-			self.message.append("Refinance credit facility.")  # Still to do
-			self.message.append("Credit facility info.")
-			self.message.append("Move to next quarter.")
-			self.message.append("Quit.")
+			self.message.append("1 :Hire/fire underwriters.")
+			self.message.append("2 :Check platform income statement.")
+			self.message.append("3 :Check platform balance sheet.")
+			self.message.append("4 :Check platform cash flow statement.")
+			self.message.append("5 :Check loan performance.")
+			self.message.append("6 :Check loan buyer cash.")
+			self.message.append("7 :Sell loans.")
+			self.message.append("8 :Securitize loans.")
+			self.message.append("9 :Sell into credit facility.")
+			self.message.append("10:Refinance credit facility.")  # Still to do
+			self.message.append("11:Credit facility info.")
+			self.message.append("12:Move to next quarter.")
+			self.message.append("13:Quit.")
 			response = self.get_main_game_option("Make a decision")
 
 			if response == 1:
@@ -170,7 +170,7 @@ class GameService(Thread):
 				self.message.append("Loan CF: {}".format(c.portfolio.interestIncome + c.portfolio.principalPayments))
 				self.message.append("Securitization CF: {}".format(c.residualPayments))
 				self.message.append("Total Cash Flow: {}".format(
-					  c.residualPayments + c.portfolio.interestIncome + c.portfolio.principalPayments - c.originations))
+					c.residualPayments + c.portfolio.interestIncome + c.portfolio.principalPayments - c.originations))
 				self.message.append("")
 			elif response == 5:
 				if len(c.portfolio.loanYield) <= 3:
@@ -229,6 +229,7 @@ class GameService(Thread):
 		facilityLimit = (f.maxSize - f.loanSize) / f.advanceRate
 		advanceLimit = min(facilityLimit, c.portfolio.loanUPB)
 		self.message.append("The facility can accept {}".format(advanceLimit))
+		self.message.append(advanceLimit)
 
 		while True:
 			try:
@@ -270,6 +271,7 @@ class GameService(Thread):
 		self.message.append("Buyer D can finance up to {}".format(purchaseLimitD))
 		self.message.append("Buyer D would like a yield of {}".format(desireSpreadD))
 		self.message.append("Buyer D would like overcollateralization of {}".format(desireOvercollatD))
+		self.message.append(purchaseLimitD)
 
 		while True:
 			try:
@@ -303,7 +305,7 @@ class GameService(Thread):
 		t1 = Tranche(value, desireSpreadD / 100)
 		sPort = Portfolio(0)
 		sPort.addLoans(value / (1 - desireOvercollatD / 100), c.portfolio.wavgCoupon, c.portfolio.wavgCDR,
-					   newRemTerm=c.portfolio.wavgRemTerm)
+					    newRemTerm=c.portfolio.wavgRemTerm)
 
 		finStruct = Structure([t1], sPort, 1 - desireOvercollatD / 100 - 0.1)
 		c.portfolio.sellLoans(value / (1 - desireOvercollatD / 100), c.portfolio.wavgCoupon, c.portfolio.wavgCDR)
@@ -316,7 +318,8 @@ class GameService(Thread):
 	def perform_loan_sale(self, a, b, c, economy):
 		purchaseLimitA = min((a.confidence + 1) * 200, a.cash, c.portfolio.loanUPB)
 
-		self.message.append("Buyer A can buy up to ", purchaseLimitA)
+		self.message.append("Buyer A can buy up to {}".format(purchaseLimitA))
+		self.message.append(purchaseLimitA)
 
 		while True:
 			try:
@@ -354,7 +357,7 @@ class GameService(Thread):
 		c.runway = c.cash / c.burnRate
 		a.portfolio.addLoans(value, c.portfolio.wavgCoupon, c.portfolio.wavgCDR, newRemTerm=c.portfolio.wavgRemTerm)
 		c.soldPortfolioA.addLoans(value, c.portfolio.wavgCoupon, c.portfolio.wavgCDR,
-								  newRemTerm=c.portfolio.wavgRemTerm)
+								    newRemTerm=c.portfolio.wavgRemTerm)
 		c.portfolio.sellLoans(value, c.portfolio.wavgCoupon, c.portfolio.wavgCDR, )
 
 		a.purchased = True

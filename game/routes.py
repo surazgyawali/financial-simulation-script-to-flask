@@ -59,19 +59,20 @@ def game_loop(header,messages=None):
 def gameLoopQuestions():
     'returns game loop questions in json/dict format'
     return{
-            "options"   : ['Hire/fire underwriters.',
-                            'Check platform income statement.',
-                            'Check platform balance sheet.',
-                            'Check platform cash flow statement.',
-                            'Check loan performance.',
-                            'Check loan buyer cash.',
-                            'Sell loans.',
-                            'Securitize loans.',
-                            'Sell into credit facility.',
-                            'Refinance credit facility.',
-                            'Credit facility info.',
-                            'Move to next quarter.',
-                            'Quit.'
+            "options"   : [
+                            '1:Hire/fire underwriters.',
+                            '2:Check platform income statement.',
+                            '3:Check platform balance sheet.',
+                            '4:Check platform cash flow statement.',
+                            '5:Check loan performance.',
+                            '6:Check loan buyer cash.',
+                            '7:Sell loans.',
+                            '8:Securitize loans.',
+                            '9:Sell into credit facility.',
+                            '10:Refinance credit facility.',
+                            '11:Credit facility info.',
+                            '12:Move to next quarter.',
+                            '13:Quit.'
                         ],
             "question"  : 'Make a decision',
             "uri"       :'/game',
@@ -178,26 +179,92 @@ def gameStart():
                     messages = [messages[3]],
                     **gameLoopQuestions()
                 )
+
             elif response == 7:
-                return "TODO: The task."
+                jResponse = send_get_request('7')
+                messages  = jResponse['data']
+                question  = messages[2]
+                warning   = messages[0]
+                limit     = messages[1]
+                return flask.render_template(
+                    'sellLoans.djhtml',
+                    header     = "Let's sell some Loans.",
+                    uri        = 'game/7',
+                    question   = messages[2],
+                    warning    = messages[0],
+                    limit      = messages[1],
+                    field_name = "sell"
+                )
+
             elif response == 8:
-                return "TODO: The task."
+                jResponse = send_get_request('8')
+                messages = jResponse['data']
+                # return str(messages)
+                return flask.render_template(
+                    'securitizeLoans.djhtml',
+                    header     = "Let's Securitize some Loans.",
+                    uri        = 'game/8',
+                    info       = messages[0:3],
+                    question   = messages[4],
+                    limit      = messages[3],
+                    field_name = "secure"
+                )
+
             elif response == 9:
-                return "TODO: The task."
+                jResponse = send_get_request('9')
+                messages  = jResponse['data']
+                # return str(messages)
+                return flask.render_template(
+                    'securitizeLoans.djhtml',
+                    header     = "Sell into credit facility.",
+                    uri        = 'game/9',
+                    info       = [messages[0]],
+                    question   = messages[2],
+                    limit      = messages[1],
+                    field_name = 'sellFacility'
+                )
             elif response == 10:
-                return "TODO: The task."
+                return "TODO: Wil be here soon."
             elif response == 11:
-                return "TODO: The task."
+                jResponse = send_get_request('11')
+                messages  = jResponse['data']
+                # return  str(messages)
+                return flask.render_template(
+                    'game.djhtml',
+                    stats    = messages[0:4],
+                    messages = ["What would you like to do next ??"],
+                    **gameLoopQuestions()
+                )
             elif response == 13:
-                # jResponse = send_get_request('13')
+                jResponse = send_get_request('13')
                 return flask.redirect('/restart')
+
 
 @app.route('/game/1')
 def game_hire():
-    response = None
     response = request.args.get('hire')
     jsonData = send_get_request(response)
-    return game_loop("Some RecruitMent has been done.Keep Going.")
+    return game_loop(header = "Bingo,Some HR stuff has been done.", messages = ["Let's continue the pace."])
+
+
+@app.route('/game/7')
+def game_sell():
+    response = request.args.get('sell')
+    jsonData = send_get_request(response)
+    return game_loop("Transaction successfully completed.Cheers :)",['So good so far.'])
+
+
+@app.route('/game/8')
+def game_perform_securitization():
+    response = request.args.get('secure')
+    jsonData = send_get_request(response)
+    return game_loop("You've done it.",['"Beware of little expenses. A small leak will sink a great ship."\n- B.Frank', "Go on."])
+
+@app.route('/game/9')
+def game_perform_credit_sell():
+    response = request.args.get('sellFacility')
+    jsonData = send_get_request(response)
+    return game_loop("As your wish.",['"The longer I go on, the more I am aware of the power of finance. - J.W"', 'What would you like to do next??'])
 
 @app.route('/restart')
 def restart():
