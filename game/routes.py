@@ -223,10 +223,10 @@ def gameStart():
                 )
             elif response == 10:
                 return "TODO: Wil be here soon."
+
             elif response == 11:
                 jResponse = send_get_request('11')
                 messages  = jResponse['data']
-                # return  str(messages)
                 return flask.render_template(
                     'game.djhtml',
                     stats    = messages[0:4],
@@ -236,7 +236,14 @@ def gameStart():
             elif response == 13:
                 jResponse = send_get_request('13')
                 return flask.redirect('/restart')
-
+        jResponse = send_get_request('12')
+        messages   = jResponse['data']
+        return render_template(
+            'game.djhtml',
+            header     = "Congratulations.",
+            stats      = messages[0:7],
+            **gameLoopQuestions()
+        )
 
 @app.route('/game/1')
 def game_hire():
