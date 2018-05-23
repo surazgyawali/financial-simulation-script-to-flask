@@ -145,6 +145,7 @@ def gameStart():
                 messages = jResponse['data']
                 return flask.render_template(
                     'game.djhtml',
+                    header   = "Platform Balance Sheet.",
                     stats    = messages[0:7],
                     messages = ["Keep up the good business.What next??"],
                     **gameLoopQuestions()
@@ -155,6 +156,7 @@ def gameStart():
                 messages = jResponse['data']
                 return flask.render_template(
                     'game.djhtml',
+                    header   = "Platform Cashflow statement.",
                     stats    = messages[0:7],
                     messages = ["What will be your next command??"],
                     **gameLoopQuestions()
@@ -165,6 +167,7 @@ def gameStart():
                 messages  = jResponse['data']
                 return flask.render_template(
                     'game.djhtml',
+                    header   = "Loan Performance",
                     stats    = messages[0:6],
                     messages = ["What would you like to do next ??"],
                     **gameLoopQuestions()
@@ -175,6 +178,7 @@ def gameStart():
                 messages  = jResponse['data']
                 return flask.render_template(
                     'game.djhtml',
+                    header   = "Loan buyer cash.",
                     stats    = messages[0:3],
                     messages = ["What could be the next step to success??"],
                     **gameLoopQuestions()
@@ -229,6 +233,7 @@ def gameStart():
                 messages  = jResponse['data']
                 return flask.render_template(
                     'game.djhtml',
+                    header   = "Credit Facility Info",
                     stats    = messages[0:4],
                     messages = ["What would you like to do next ??"],
                     **gameLoopQuestions()
