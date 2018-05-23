@@ -122,7 +122,7 @@ def gameStart():
                 return flask.render_template(
                     'hireFire.djhtml',
                     header     = "“Great vision without great people is irrelevant.",
-                    messages   = [messages[1]],
+                    messages   = ["How many underwriters would you like to hire or fire, choose suitably??"],
                     stats      = [messages[0]],
                     question   = "The moment has come.",
                     uri        = 'game/1',
@@ -136,7 +136,7 @@ def gameStart():
                     'game.djhtml',
                     header     = "Platform Income Interest",
                     stats      = messages[0:9],
-                    messages   = [messages[9]],
+                    messages   = ["Go on, what would you like to do now??"],
                     **gameLoopQuestions()
                 )
 
@@ -146,7 +146,7 @@ def gameStart():
                 return flask.render_template(
                     'game.djhtml',
                     stats    = messages[0:7],
-                    messages = [messages[7]],
+                    messages = ["Keep up the good business.What next??"],
                     **gameLoopQuestions()
                 )
 
@@ -156,7 +156,7 @@ def gameStart():
                 return flask.render_template(
                     'game.djhtml',
                     stats    = messages[0:7],
-                    messages = [messages[7]],
+                    messages = ["What will be your next command??"],
                     **gameLoopQuestions()
                 )
 
@@ -166,7 +166,7 @@ def gameStart():
                 return flask.render_template(
                     'game.djhtml',
                     stats    = messages[0:6],
-                    messages = [messages[6]],
+                    messages = ["What would you like to do next ??"],
                     **gameLoopQuestions()
                 )
 
@@ -176,7 +176,7 @@ def gameStart():
                 return flask.render_template(
                     'game.djhtml',
                     stats    = messages[0:3],
-                    messages = [messages[3]],
+                    messages = ["What could be the next step to success??"],
                     **gameLoopQuestions()
                 )
 
@@ -204,7 +204,7 @@ def gameStart():
                     header     = "Let's Securitize some Loans.",
                     uri        = 'game/8',
                     info       = messages[0:3],
-                    question   = messages[4],
+                    question   = "How large would you like buyer D's tranche to be (enter 0 to not sell)?",
                     limit      = messages[3],
                     field_name = "secure"
                 )
@@ -217,7 +217,7 @@ def gameStart():
                     header     = "Sell into credit facility.",
                     uri        = 'game/9',
                     info       = [messages[0]],
-                    question   = messages[2],
+                    question   = "How much would you like to sell (enter 0 to not sell)?",
                     limit      = messages[1],
                     field_name = 'sellFacility'
                 )
