@@ -187,16 +187,23 @@ def gameStart():
             elif response == 7:
                 jResponse = send_get_request('7')
                 messages  = jResponse['data']
-                question  = messages[2]
-                warning   = messages[0]
-                limit     = messages[1]
+                purchased = messages[0]
+                if purchased:
+                        # return game_loop("Oops!!!",['"Buyer A already purchased. Please choose another option."', 'What would you like to do next??'])
+                        return flask.render_template(
+                            'game.djhtml',
+                            header   = "Oops!!",
+                            stats    = ["Buyer A already purchased. Please choose another option."],
+                            messages = ["What would you like to do next ??"],
+                            **gameLoopQuestions()
+                )
                 return flask.render_template(
                     'sellLoans.djhtml',
                     header     = "Let's sell some Loans.",
                     uri        = 'game/7',
-                    question   = messages[2],
-                    warning    = messages[0],
-                    limit      = messages[1],
+                    question   = "How much would you like to sell (enter 0 to not sell)?",
+                    warning    = messages[1],
+                    limit      = messages[2],
                     field_name = "sell"
                 )
 

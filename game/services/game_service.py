@@ -188,6 +188,7 @@ class GameService(Thread):
 				self.message.append("Buyer D cash:{} ".format(d.cash))
 				self.message.append("")
 			elif response == 7:
+				self.message.append(a.purchased)
 				if a.purchased:
 					self.message.append("Buyer A already purchased. Please choose another option.")
 					self.message.append("")
