@@ -134,7 +134,7 @@ def gameStart():
                 messages=jResponse['data']
                 return flask.render_template(
                     'game.djhtml',
-                    header     = "Platform Income Interest",
+                    header     = "Platform Income Statement",
                     stats      = messages[0:9],
                     messages   = ["Go on, what would you like to do now??"],
                     **gameLoopQuestions()
