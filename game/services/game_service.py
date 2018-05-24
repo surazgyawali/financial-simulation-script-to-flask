@@ -111,11 +111,11 @@ class GameService(Thread):
 
 		self.message.append("Your quarterly results came in for {}".format(date_string))
 		self.message.append("The economy strength is: {}".format(economy))
-		self.message.append("The net income was: {}".format(c.netIncome))
-		self.message.append("Your cash is: {}".format(c.cash))
-		self.message.append("The platform originated new loan UPB of: {}".format(c.originations))
-		self.message.append("Your burnrate was: {}".format(c.burnRate))
-		self.message.append("Your runway is: {}".format(c.runway))
+		self.message.append("The net income was: {}".format(round(c.netIncome,2)))
+		self.message.append("Your cash is: {}".format(round(c.cash,2)))
+		self.message.append("The platform originated new loan UPB of: {}".format(round(c.originations,2)))
+		self.message.append("Your burnrate was: {}".format(round(c.burnRate,2)))
+		self.message.append("Your runway is: {}".format(round(c.runway,2)))
 		self.message.append("")
 
 		# Reset the check if buyer a has purchased
@@ -145,47 +145,47 @@ class GameService(Thread):
 				num = self.get_underwriters("How many underwriters would you like to hire (or fire)? ")
 				c.addUnderwriters(num)
 			elif response == 2:
-				self.message.append("Interest income: {} {}".format(c.portfolio.interestIncome,
-					  (c.portfolio.interestIncome - c.portfolio.realizedLosses) / c.portfolio.loanUPB * 100 * 4))
-				self.message.append("Origination income: {}".format(c.originationFees))
-				self.message.append("Servicing income: {}".format(c.servicingFees))
-				self.message.append("Facility income: {}".format(f.div))
-				self.message.append("Residual income: {} {}".format(c.residualGain, c.residualGain / (c.residualInvestments + 0.01) * 100 * 4))
-				self.message.append("Reserve change: {}".format(c.reserveChange))
-				self.message.append("Corporate overhead: {}".format(-1 * (c.corporateOverhead + c.SGA)))
-				self.message.append("Net Income: {}".format(c.netIncome))
+				self.message.append("Interest income: {} {}".format(round(c.portfolio.interestIncome, 2),
+					  round((c.portfolio.interestIncome - c.portfolio.realizedLosses) / c.portfolio.loanUPB * 100 * 4, 2)))
+				self.message.append("Origination income: {}".format(round(c.originationFees,2)))
+				self.message.append("Servicing income: {}".format(round(c.servicingFees,2)))
+				self.message.append("Facility income: {}".format(round(f.div,2)))
+				self.message.append("Residual income: {} {}".format(round(c.residualGain,2),round(c.residualGain / (c.residualInvestments + 0.01) * 100 * 4,2)))
+				self.message.append("Reserve change: {}".format(round(c.reserveChange,2)))
+				self.message.append("Corporate overhead: {}".format(-1 * (round(c.corporateOverhead + c.SGA,2))))
+				self.message.append("Net Income: {}".format(round(c.netIncome,2)))
 				self.message.append("")
 			elif response == 3:
-				self.message.append("Cash: {}".format(c.cash))
-				self.message.append("Loan UPB: {}".format(c.portfolio.loanUPB))
-				self.message.append("Loss Reserve: {}".format(c.lossReserve))
-				self.message.append("Residual Investments: {}".format(c.residualInvestments))
-				self.message.append("Facility Equity: {}".format(f.portfolio.loanUPB - f.loanSize))
-				self.message.append("Corporate Equity: {}".format(c.equity))
+				self.message.append("Cash: {}".format(round(c.cash,2)))
+				self.message.append("Loan UPB: {}".format(round(c.portfolio.loanUPB,2)))
+				self.message.append("Loss Reserve: {}".format(round(c.lossReserve,2)))
+				self.message.append("Residual Investments: {}".format(round(c.residualInvestments,2)))
+				self.message.append("Facility Equity: {}".format(round(f.portfolio.loanUPB - f.loanSize,2)))
+				self.message.append("Corporate Equity: {}".format(round(c.equity,2)))
 				self.message.append("")
 			elif response == 4:
-				self.message.append("Originated UPB: {}".format(c.originations))
+				self.message.append("Originated UPB: {}".format(round(c.originations,2)))
 				self.message.append("Sold UPB: {}".format(c.loanSales))
-				self.message.append("Securitized UPB: {}".format(c.securitizedPrincipal))
-				self.message.append("Loan CF: {}".format(c.portfolio.interestIncome + c.portfolio.principalPayments))
-				self.message.append("Securitization CF: {}".format(c.residualPayments))
+				self.message.append("Securitized UPB: {}".format(round(c.securitizedPrincipal,2)))
+				self.message.append("Loan CF: {}".format(round(c.portfolio.interestIncome + c.portfolio.principalPayments,2)))
+				self.message.append("Securitization CF: {}".format(round(c.residualPayments,2)))
 				self.message.append("Total Cash Flow: {}".format(
-					c.residualPayments + c.portfolio.interestIncome + c.portfolio.principalPayments - c.originations))
+					round(c.residualPayments + c.portfolio.interestIncome + c.portfolio.principalPayments - c.originations,2)))
 				self.message.append("")
 			elif response == 5:
 				if len(c.portfolio.loanYield) <= 3:
 					self.message.append("Portfolio too young to check yield")
 				else:
-					self.message.append("Yield: {}".format(sum(c.portfolio.loanYield) * 100))
-				self.message.append("Realized loss: {} {}".format(c.portfolio.realizedLosses,
-					  c.portfolio.realizedLosses / c.portfolio.loanUPB * 100 * 4))
-				self.message.append("Weighted Average Coupon: {}".format(c.portfolio.wavgCoupon))
-				self.message.append("Weighted Average Default Rate: {}".format(c.portfolio.wavgCDR))
-				self.message.append("Weighted Average Remaining Term: {}".format(c.portfolio.wavgRemTerm))
+					self.message.append("Yield: {}".format(round(sum(c.portfolio.loanYield) * 100),2))
+				self.message.append("Realized loss: {} {}".format(round(c.portfolio.realizedLosses,2),
+					  round(c.portfolio.realizedLosses / c.portfolio.loanUPB * 100 * 4,2)))
+				self.message.append("Weighted Average Coupon: {}".format(round(c.portfolio.wavgCoupon,2)))
+				self.message.append("Weighted Average Default Rate: {}".format(round(c.portfolio.wavgCDR,2)))
+				self.message.append("Weighted Average Remaining Term: {}".format(round(c.portfolio.wavgRemTerm,2)))
 				self.message.append("")
 			elif response == 6:
-				self.message.append("Buyer A cash:{} ".format(a.cash))
-				self.message.append("Buyer D cash:{} ".format(d.cash))
+				self.message.append("Buyer A cash:{} ".format(round(a.cash,2)))
+				self.message.append("Buyer D cash:{} ".format(round(d.cash,2)))
 				self.message.append("")
 			elif response == 7:
 				self.message.append(a.purchased)
@@ -202,9 +202,9 @@ class GameService(Thread):
 				self.refiFacility(c, f, economy)
 			elif response == 11:
 				self.message.append("Facility size: {}".format(f.maxSize))
-				self.message.append("Facility current size: {}".format(f.loanSize))
-				self.message.append("Facility portfolio size: {}".format(f.portfolio.loanUPB))
-				self.message.append("Last quarter facility cashflow: {}".format(f.div))
+				self.message.append("Facility current size: {}".format(round(f.loanSize,2)))
+				self.message.append("Facility portfolio size: {}".format(round(f.portfolio.loanUPB,2)))
+				self.message.append("Last quarter facility cashflow: {}".format(round(f.div,4)))
 				self.message.append("")
 			elif response == 13:
 				return 1
@@ -229,7 +229,7 @@ class GameService(Thread):
 
 		facilityLimit = (f.maxSize - f.loanSize) / f.advanceRate
 		advanceLimit = min(facilityLimit, c.portfolio.loanUPB)
-		self.message.append("The facility can accept {}".format(advanceLimit))
+		self.message.append("The facility can accept {}".format(round(advanceLimit,2)))
 		self.message.append(advanceLimit)
 
 		while True:
@@ -269,8 +269,8 @@ class GameService(Thread):
 		desireOvercollatD = 30 + economy * 5
 		purchaseLimitD = min((d.confidence + 1) * 300, d.cash, c.portfolio.loanUPB * (1 - desireOvercollatD / 100))
 
-		self.message.append("Buyer D can finance up to {}".format(purchaseLimitD))
-		self.message.append("Buyer D would like a yield of {}".format(desireSpreadD))
+		self.message.append("Buyer D can finance up to {}".format(round(purchaseLimitD,2)))
+		self.message.append("Buyer D would like a yield of {}".format(round(desireSpreadD,2)))
 		self.message.append("Buyer D would like overcollateralization of {}".format(desireOvercollatD))
 		self.message.append(purchaseLimitD)
 
@@ -319,7 +319,7 @@ class GameService(Thread):
 	def perform_loan_sale(self, a, b, c, economy):
 		purchaseLimitA = min((a.confidence + 1) * 200, a.cash, c.portfolio.loanUPB)
 
-		self.message.append("Buyer A can buy up to {}".format(purchaseLimitA))
+		self.message.append("Buyer A can buy up to {}".format(round(purchaseLimitA,2)))
 		self.message.append(purchaseLimitA)
 
 		while True:
