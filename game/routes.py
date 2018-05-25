@@ -53,6 +53,7 @@ def game_loop(header,messages=None):
         'game.djhtml',
         messages   = messages,
         header     = header,
+        sessid     = flask.session['sessionData']['sessid'],
         **gameLoopQuestions()
     )
 
@@ -105,6 +106,7 @@ def gameStart():
         messages = jsonData['data']
         return render_template(
             'game.djhtml',
+            sessid     = flask.session['sessionData']['sessid'],
             header     = "On your command.",
             # messages  = messages[0:3],
             stats      = messages[3:12],
@@ -121,6 +123,7 @@ def gameStart():
                 messages = jResponse['data']
                 return flask.render_template(
                     'hireFire.djhtml',
+                    sessid     = flask.session['sessionData']['sessid'],
                     header     = "“Great vision without great people is irrelevant.",
                     messages   = ["How many underwriters would you like to hire or fire, choose suitably??"],
                     stats      = [messages[0]],
@@ -135,6 +138,7 @@ def gameStart():
                 return flask.render_template(
                     'game.djhtml',
                     header     = "Platform Income Statement",
+                    sessid     = flask.session['sessionData']['sessid'],
                     stats      = messages[0:9],
                     messages   = ["Go on, what would you like to do now??"],
                     **gameLoopQuestions()
@@ -146,6 +150,7 @@ def gameStart():
                 return flask.render_template(
                     'game.djhtml',
                     header   = "Platform Balance Sheet.",
+                    sessid     = flask.session['sessionData']['sessid'],
                     stats    = messages[0:7],
                     messages = ["Keep up the good business.What next??"],
                     **gameLoopQuestions()
@@ -158,6 +163,7 @@ def gameStart():
                     'game.djhtml',
                     header   = "Platform Cashflow statement.",
                     stats    = messages[0:7],
+                    sessid     = flask.session['sessionData']['sessid'],
                     messages = ["What will be your next command??"],
                     **gameLoopQuestions()
                 )
@@ -168,6 +174,7 @@ def gameStart():
                 return flask.render_template(
                     'game.djhtml',
                     header   = "Loan Performance",
+                    sessid     = flask.session['sessionData']['sessid'],
                     stats    = messages[0:6],
                     messages = ["What would you like to do next ??"],
                     **gameLoopQuestions()
@@ -181,6 +188,7 @@ def gameStart():
                     header   = "Loan buyer cash.",
                     stats    = messages[0:3],
                     messages = ["What could be the next step to success??"],
+                    sessid     = flask.session['sessionData']['sessid'],
                     **gameLoopQuestions()
                 )
 
@@ -193,6 +201,7 @@ def gameStart():
                         return flask.render_template(
                             'game.djhtml',
                             header   = "Oops!!",
+                            sessid     = flask.session['sessionData']['sessid'],
                             stats    = ["Buyer A already purchased. Please choose another option."],
                             messages = ["What would you like to do next ??"],
                             **gameLoopQuestions()
@@ -201,6 +210,7 @@ def gameStart():
                     'sellLoans.djhtml',
                     header     = "Let's sell some Loans.",
                     uri        = 'game/7',
+                    sessid     = flask.session['sessionData']['sessid'],
                     question   = "How much would you like to sell (enter 0 to not sell)?",
                     warning    = messages[1],
                     limit      = messages[2],
@@ -214,6 +224,7 @@ def gameStart():
                     'securitizeLoans.djhtml',
                     header     = "Let's Securitize some Loans.",
                     uri        = 'game/8',
+                    sessid     = flask.session['sessionData']['sessid'],
                     info       = messages[0:3],
                     question   = "How large would you like buyer D's tranche to be (enter 0 to not sell)?",
                     limit      = messages[3],
@@ -227,6 +238,7 @@ def gameStart():
                     'securitizeLoans.djhtml',
                     header     = "Sell into credit facility.",
                     uri        = 'game/9',
+                    sessid     = flask.session['sessionData']['sessid'],
                     info       = [messages[0]],
                     question   = "How much would you like to sell (enter 0 to not sell)?",
                     limit      = messages[1],
@@ -241,6 +253,7 @@ def gameStart():
                 return flask.render_template(
                     'game.djhtml',
                     header   = "Credit Facility Info",
+                    sessid     = flask.session['sessionData']['sessid'],
                     stats    = messages[0:4],
                     messages = ["What would you like to do next ??"],
                     **gameLoopQuestions()
@@ -253,6 +266,7 @@ def gameStart():
         return render_template(
             'game.djhtml',
             header     = "Congratulations.",
+            sessid     = flask.session['sessionData']['sessid'],
             stats      = messages[0:7],
             **gameLoopQuestions()
         )
