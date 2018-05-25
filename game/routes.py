@@ -44,6 +44,11 @@ def send_get_request(response):
                 )
     except requests.exceptions.RequestException as e:
         return e
+    except KeyError,e:
+        response = requests.get(
+                    flask.request.url_root +'api/game',
+                    headers = headerData
+                )
     jResponse = response.json()
     return jResponse
 
@@ -108,7 +113,6 @@ def gameStart():
             'game.djhtml',
             sessid     = flask.session['sessionData']['sessid'],
             header     = "On your command.",
-            # messages  = messages[0:3],
             stats      = messages[3:12],
             **gameLoopQuestions()
         )
