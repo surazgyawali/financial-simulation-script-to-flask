@@ -44,13 +44,18 @@ def send_get_request(response):
                 )
     except requests.exceptions.RequestException as e:
         return e
-    except KeyError as e:
-        response = requests.get(
-                    flask.request.url_root +'api/game',
-                    headers = headerData
-                )
     jResponse = response.json()
-    return jResponse
+
+    try:
+        messages = jResponse['data']
+    except KeyError as e:
+        flask.session.clear()
+        return flask.redirect('/restart')
+    except Exception as e:
+        flask.session.clear()
+        return flask.redirect('/restart')
+
+    return messages
 
 def game_loop(header,messages=None):
     '''renders gameloop view with provided header parameter'''
@@ -108,12 +113,12 @@ def index():
 def gameStart():
     if request.method == 'POST':
         jsonData = send_post_request()
-        messages = jsonData['data']
+        responseMessage = jsonData['data']
         return render_template(
             'game.djhtml',
             sessid     = flask.session['sessionData']['sessid'],
             header     = "On your command.",
-            stats      = messages[3:12],
+            stats      = responseMessage[3:12],
             **gameLoopQuestions()
         )
 
@@ -123,85 +128,77 @@ def gameStart():
         response = int(response)
         while response != 12:
             if response == 1:
-                jResponse = send_get_request('1')
-                messages = jResponse['data']
+                responseMessage = send_get_request('1')
                 return flask.render_template(
                     'hireFire.djhtml',
                     sessid     = flask.session['sessionData']['sessid'],
                     header     = "“Great vision without great people is irrelevant.",
                     messages   = ["How many underwriters would you like to hire or fire, choose suitably??"],
-                    stats      = [messages[0]],
+                    stats      = [responseMessage[0]],
                     question   = "The moment has come.",
                     uri        = 'game/1',
                     field_name = 'hire'
                 )
 
             elif response == 2:
-                jResponse = send_get_request('2')
-                messages=jResponse['data']
+                responseMessage = send_get_request('2')
                 return flask.render_template(
                     'game.djhtml',
                     header     = "Platform Income Statement",
-                    sessid     = flask.session['sessionData']['sessid'],
-                    stats      = messages[0:9],
+                    stats      = responseMessage[0:9],
                     messages   = ["Go on, what would you like to do now??"],
+                    sessid     = flask.session['sessionData']['sessid'],
                     **gameLoopQuestions()
                 )
 
             elif response == 3:
-                jResponse = send_get_request('3')
-                messages = jResponse['data']
+                responseMessage = send_get_request('3')
                 return flask.render_template(
                     'game.djhtml',
                     header   = "Platform Balance Sheet.",
                     sessid     = flask.session['sessionData']['sessid'],
-                    stats    = messages[0:7],
+                    stats    = responseMessage[0:7],
                     messages = ["Keep up the good business.What next??"],
                     **gameLoopQuestions()
                 )
 
             elif response == 4:
-                jResponse = send_get_request('4')
-                messages = jResponse['data']
+                responseMessage = send_get_request('4')
                 return flask.render_template(
                     'game.djhtml',
                     header   = "Platform Cashflow statement.",
-                    stats    = messages[0:7],
+                    stats    = responseMessage[0:7],
                     sessid     = flask.session['sessionData']['sessid'],
                     messages = ["What will be your next command??"],
                     **gameLoopQuestions()
                 )
 
             elif response == 5:
-                jResponse = send_get_request('5')
-                messages  = jResponse['data']
+                responseMessage = send_get_request('5')
                 return flask.render_template(
                     'game.djhtml',
                     header   = "Loan Performance",
-                    sessid     = flask.session['sessionData']['sessid'],
-                    stats    = messages[0:6],
+                    stats    = responseMessage[0:6],
+                    sessid   = flask.session['sessionData']['sessid'],
                     messages = ["What would you like to do next ??"],
                     **gameLoopQuestions()
                 )
 
             elif response == 6:
-                jResponse = send_get_request('6')
-                messages  = jResponse['data']
+                responseMessage = send_get_request('6')
                 return flask.render_template(
                     'game.djhtml',
                     header   = "Loan buyer cash.",
-                    stats    = messages[0:3],
+                    stats    = responseMessage[0:3],
                     messages = ["What could be the next step to success??"],
                     sessid     = flask.session['sessionData']['sessid'],
                     **gameLoopQuestions()
                 )
 
             elif response == 7:
-                jResponse = send_get_request('7')
-                messages  = jResponse['data']
-                purchased = messages[0]
+                responseMessage = send_get_request('7')
+                purchased = responseMessage[0]
                 if purchased:
-                        # return game_loop("Oops!!!",['"Buyer A already purchased. Please choose another option."', 'What would you like to do next??'])
                         return flask.render_template(
                             'game.djhtml',
                             header   = "Oops!!",
@@ -216,62 +213,58 @@ def gameStart():
                     uri        = 'game/7',
                     sessid     = flask.session['sessionData']['sessid'],
                     question   = "How much would you like to sell (enter 0 to not sell)?",
-                    warning    = messages[1],
-                    limit      = messages[2],
+                    warning    = responseMessage[1],
+                    limit      = responseMessage[2],
                     field_name = "sell"
                 )
 
             elif response == 8:
-                jResponse = send_get_request('8')
-                messages = jResponse['data']
+                responseMessage =  send_get_request('8')
                 return flask.render_template(
                     'securitizeLoans.djhtml',
                     header     = "Let's Securitize some Loans.",
                     uri        = 'game/8',
                     sessid     = flask.session['sessionData']['sessid'],
-                    info       = messages[0:3],
+                    info       = responseMessage[0:3],
                     question   = "How large would you like buyer D's tranche to be (enter 0 to not sell)?",
-                    limit      = messages[3],
+                    limit      = responseMessage[3],
                     field_name = "secure"
                 )
 
             elif response == 9:
-                jResponse = send_get_request('9')
-                messages  = jResponse['data']
+                responseMessage =  send_get_request('9')
                 return flask.render_template(
                     'securitizeLoans.djhtml',
                     header     = "Sell into credit facility.",
                     uri        = 'game/9',
                     sessid     = flask.session['sessionData']['sessid'],
-                    info       = [messages[0]],
+                    info       = [responseMessage[0]],
                     question   = "How much would you like to sell (enter 0 to not sell)?",
-                    limit      = messages[1],
+                    limit      = responseMessage[1],
                     field_name = 'sellFacility'
                 )
             elif response == 10:
                 return "TODO: Wil be here soon."
 
             elif response == 11:
-                jResponse = send_get_request('11')
-                messages  = jResponse['data']
+                responseMessage =  send_get_request('8')
                 return flask.render_template(
                     'game.djhtml',
                     header   = "Credit Facility Info",
                     sessid     = flask.session['sessionData']['sessid'],
-                    stats    = messages[0:4],
+                    stats    = responseMessage[0:4],
                     messages = ["What would you like to do next ??"],
                     **gameLoopQuestions()
                 )
             elif response == 13:
-                jResponse = send_get_request('13')
+                responseMessage = send_get_request('13')
                 return flask.redirect('/restart')
-        jResponse = send_get_request('12')
-        messages   = jResponse['data']
+        responseMessage =  send_get_request('12')
         return render_template(
             'game.djhtml',
             header     = "Congratulations.",
             sessid     = flask.session['sessionData']['sessid'],
-            stats      = messages[0:7],
+            stats      = responseMessage[0:7],
             **gameLoopQuestions()
         )
 
@@ -303,6 +296,5 @@ def game_perform_credit_sell():
 
 @app.route('/restart')
 def restart():
-    flask.flash("You successfully retired.",category='success')
     flask.session.clear()
     return redirect('/')
