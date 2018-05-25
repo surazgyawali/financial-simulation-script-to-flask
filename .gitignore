@@ -5,3 +5,5 @@ venv/
 /heroku
 /heroku.pub
 /.vscode/tags
+/.env
+/game/up.py
