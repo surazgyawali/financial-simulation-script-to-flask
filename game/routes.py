@@ -44,7 +44,7 @@ def send_get_request(response):
                 )
     except requests.exceptions.RequestException as e:
         return e
-    except KeyError,e:
+    except KeyError as e:
         response = requests.get(
                     flask.request.url_root +'api/game',
                     headers = headerData
