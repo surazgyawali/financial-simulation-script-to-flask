@@ -41,7 +41,7 @@
 
     <footer class="footer text-center clear-top fixed-bottom mt-3 mb-1">
         <div class="container">
-            <span class="text-muted">Bachmann Games © 2018 {{sessid}}</span>
+            <span class="text-muted">Bachmann Games © 2018 <span class="text-success">{{sessid}}</span></span>
         </div>
     </footer>
 
