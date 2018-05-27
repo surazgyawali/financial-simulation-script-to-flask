@@ -142,8 +142,13 @@ def gameStart():
                     stats      = [responseMessage[0]],
                     question   = "The moment has come.",
                     uri        = 'game/1',
+<<<<<<< HEAD
                     field_name = 'hire',
                     sessid     = flask.session['sessionData']['sessid']
+=======
+                    field_name = 'hire'
+                    sessid     = flask.session['sessionData']['sessid'],
+>>>>>>> e208f57656861a9ebbfb677274395bf81838e973
                 )
 
             elif response == 2:
