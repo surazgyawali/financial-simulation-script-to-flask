@@ -156,7 +156,7 @@ def gameStart():
 
             elif response == 3:
                 responseMessage = send_get_request('3')
-                if notresponseMessage:
+                if not responseMessage:
                     return redirect('/error')
                 return flask.render_template(
                     'game.djhtml',
@@ -169,7 +169,7 @@ def gameStart():
 
             elif response == 4:
                 responseMessage = send_get_request('4')
-                if notresponseMessage:
+                if not responseMessage:
                     return redirect('/error')
                 return flask.render_template(
                     'game.djhtml',
@@ -182,7 +182,7 @@ def gameStart():
 
             elif response == 5:
                 responseMessage = send_get_request('5')
-                if notresponseMessage:
+                if not responseMessage:
                     return redirect('/error')
                 return flask.render_template(
                     'game.djhtml',
@@ -195,7 +195,7 @@ def gameStart():
 
             elif response == 6:
                 responseMessage = send_get_request('6')
-                if notresponseMessage:
+                if not responseMessage:
                     return redirect('/error')
                 return flask.render_template(
                     'game.djhtml',
@@ -208,7 +208,7 @@ def gameStart():
 
             elif response == 7:
                 responseMessage = send_get_request('7')
-                if notresponseMessage:
+                if not responseMessage:
                     return redirect('/error')
                 purchased = responseMessage[0]
                 if purchased:
@@ -233,7 +233,7 @@ def gameStart():
 
             elif response == 8:
                 responseMessage =  send_get_request('8')
-                if notresponseMessage:
+                if not responseMessage:
                     return redirect('/error')
                 return flask.render_template(
                     'securitizeLoans.djhtml',
@@ -248,7 +248,7 @@ def gameStart():
 
             elif response == 9:
                 responseMessage =  send_get_request('9')
-                if notresponseMessage:
+                if not responseMessage:
                     return redirect('/error')
                 return flask.render_template(
                     'securitizeLoans.djhtml',
