@@ -16,20 +16,21 @@ def send_post_request():
             response = requests.post(
                 flask.request.url_root +'api/game',
             )
+            jsonData = response.json()
+            flask.session['sessionData'] = jsonData
+
         except requests.exceptions.RequestException as e:
             return redirect('/restart')
-        jsonData = response.json()
-        flask.session['sessionData'] = jsonData
 
     try:
         response = requests.post(
             flask.request.url_root +'api/game',
             headers = {'sessid': flask.session['sessionData']['sessid']}
         )
+        jsonData = response.json()
+        return jsonData
     except requests.exceptions.RequestException as e:
         return redirect('/restart')
-    jsonData = response.json()
-    return jsonData
 
 def send_get_request(response):
     '''returns gamedata when passed response'''
@@ -42,20 +43,18 @@ def send_get_request(response):
                     flask.request.url_root +'api/game',
                     headers = headerData
                 )
-    except requests.exceptions.RequestException as e:
-        return e
-    jResponse = response.json()
-
-    try:
+        jResponse = response.json()
         messages = jResponse['data']
+        return messages
+    except requests.exceptions.RequestException as e:
+        ''' request exception'''
+        return e
     except KeyError as e:
-        flask.session.clear()
-        return flask.redirect('/restart')
+        '''key error'''
+        return
     except Exception as e:
-        flask.session.clear()
-        return flask.redirect('/restart')
-
-    return messages
+        '''uncatched exception'''
+        return str(e)
 
 def game_loop(header,messages=None):
     '''renders gameloop view with provided header parameter'''
@@ -89,7 +88,6 @@ def gameLoopQuestions():
             "uri"       :'/game',
             "field_name": 'main',
     }
-
 
 @app.route('/')
 @app.route('/index')
@@ -129,6 +127,9 @@ def gameStart():
         while response != 12:
             if response == 1:
                 responseMessage = send_get_request('1')
+                if not responseMessage:
+                    return redirect('/error')
+                print(responseMessage)
                 return flask.render_template(
                     'hireFire.djhtml',
                     sessid     = flask.session['sessionData']['sessid'],
@@ -142,6 +143,8 @@ def gameStart():
 
             elif response == 2:
                 responseMessage = send_get_request('2')
+                if not responseMessage:
+                    return redirect('/error')
                 return flask.render_template(
                     'game.djhtml',
                     header     = "Platform Income Statement",
@@ -153,6 +156,8 @@ def gameStart():
 
             elif response == 3:
                 responseMessage = send_get_request('3')
+                if notresponseMessage:
+                    return redirect('/error')
                 return flask.render_template(
                     'game.djhtml',
                     header   = "Platform Balance Sheet.",
@@ -164,6 +169,8 @@ def gameStart():
 
             elif response == 4:
                 responseMessage = send_get_request('4')
+                if notresponseMessage:
+                    return redirect('/error')
                 return flask.render_template(
                     'game.djhtml',
                     header   = "Platform Cashflow statement.",
@@ -175,6 +182,8 @@ def gameStart():
 
             elif response == 5:
                 responseMessage = send_get_request('5')
+                if notresponseMessage:
+                    return redirect('/error')
                 return flask.render_template(
                     'game.djhtml',
                     header   = "Loan Performance",
@@ -186,6 +195,8 @@ def gameStart():
 
             elif response == 6:
                 responseMessage = send_get_request('6')
+                if notresponseMessage:
+                    return redirect('/error')
                 return flask.render_template(
                     'game.djhtml',
                     header   = "Loan buyer cash.",
@@ -197,6 +208,8 @@ def gameStart():
 
             elif response == 7:
                 responseMessage = send_get_request('7')
+                if notresponseMessage:
+                    return redirect('/error')
                 purchased = responseMessage[0]
                 if purchased:
                         return flask.render_template(
@@ -220,6 +233,8 @@ def gameStart():
 
             elif response == 8:
                 responseMessage =  send_get_request('8')
+                if notresponseMessage:
+                    return redirect('/error')
                 return flask.render_template(
                     'securitizeLoans.djhtml',
                     header     = "Let's Securitize some Loans.",
@@ -233,6 +248,8 @@ def gameStart():
 
             elif response == 9:
                 responseMessage =  send_get_request('9')
+                if notresponseMessage:
+                    return redirect('/error')
                 return flask.render_template(
                     'securitizeLoans.djhtml',
                     header     = "Sell into credit facility.",
@@ -247,7 +264,9 @@ def gameStart():
                 return "TODO: Wil be here soon."
 
             elif response == 11:
-                responseMessage =  send_get_request('8')
+                responseMessage =  send_get_request('11')
+                if not responseMessage:
+                    return redirect('/error')
                 return flask.render_template(
                     'game.djhtml',
                     header   = "Credit Facility Info",
@@ -258,6 +277,8 @@ def gameStart():
                 )
             elif response == 13:
                 responseMessage = send_get_request('13')
+                if not responseMessage:
+                    return flask.redirect('/restart')
                 return flask.redirect('/restart')
         responseMessage =  send_get_request('12')
         return render_template(
@@ -298,3 +319,13 @@ def game_perform_credit_sell():
 def restart():
     flask.session.clear()
     return redirect('/')
+
+@app.route('/error')
+def error():
+    return render_template(
+        'error.djhtml',
+        header   = 'Uh oh!!! :(',
+        messages = ['Sorry, Something went wrong.','Please restart the game.'],
+        blabel   = "Why not??",
+        id       = "gameStart"
+        )
