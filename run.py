@@ -36,7 +36,7 @@ def main():
 
 
     if opts.debug:
-            app.run(debug=opts.debug, host='0.0.0.0', port = 8000)
+            app.run(debug=opts.debug, host='0.0.0.0', port = 8888, threaded = True, use_reloader=False)
             return
 
     # game.app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
