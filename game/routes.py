@@ -148,6 +148,7 @@ def restart():
 
 @app.route('/error')
 def error():
+    flask.session.clear()
     return render_template(
         'error.djhtml',
         header   = 'Uh oh!!! :(',
