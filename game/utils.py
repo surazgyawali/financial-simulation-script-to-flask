@@ -104,3 +104,9 @@ def gameLoopQuestions():
             "uri"       :'/game',
             "field_name": 'main',
     }
+
+
+def validateResponse(response):
+    if not response:
+        return False
+    return True
