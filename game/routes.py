@@ -13,6 +13,9 @@ from game.utils import *
 @app.route('/')
 @app.route('/index')
 def index():
+    if flask.session.get('sessionData'):
+        sessionId = flask.session['sessionData']['sessid']
+    sessionId = None
     return flask.render_template(
         'welcome.djhtml',
         header   = 'Greetings!!!',
@@ -23,6 +26,7 @@ def index():
                     "Your job is to ensure the growth of the platform to profitability.",
                     "Do this by managing the speed you grow the platform and choosing the best method of funding to minimize your company's Weighted Average Cost of Capital (WACC)."
                     ],
+        sessid   = sessionId,
         introHeader = "Hi There!!!!",
         introBlabel   = "Next >>",
         id       = 'gameStart'
@@ -148,13 +152,16 @@ def restart():
 
 @app.route('/error')
 def error():
+    if flask.session.get('sessionData'):
+        sessionId = flask.session['sessionData']['sessid']
     flask.session.clear()
     return render_template(
         'error.djhtml',
         header   = 'Uh oh!!! :(',
         messages = ['Sorry, Something went wrong.','Please restart the game.'],
         blabel   = "Why not??",
-        id       = "gameStart"
+        id       = "gameStart",
+        sessid   = sessionId
         )
 
 
@@ -315,8 +322,8 @@ def nextQuarter(dataNQ):
 def main(dataWelcome):
     return render_template(
         'game.djhtml',
-        sessid     = flask.session['sessionData']['sessid'],
         header     = "On your command.",
         stats      = eval(dataWelcome),
+        sessid     = flask.session['sessionData']['sessid'],
         **gameLoopQuestions()
     )
