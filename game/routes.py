@@ -31,7 +31,10 @@ def index():
 @app.route('/game',methods = ['GET','POST'])
 def gameStart():
     if request.method == 'POST':
-        return redirect('/main')
+        responseWelcome = send_post_request()
+        if validateResponse(responseWelcome):
+            return redirect(url_for('main',dataWelcome = str(responseWelcome[3:12])))
+        return redirect('/error')
     else:
         response = None
         response = request.args.get('main')
@@ -307,15 +310,12 @@ def nextQuarter(dataNQ):
     )
 
 
-@app.route('/main')
-def main():
-    responseWelcome = send_post_request()
-    if not responseWelcome:
-        return redirect('/restart')
+@app.route('/main/<dataWelcome>')
+def main(dataWelcome):
     return render_template(
         'game.djhtml',
         sessid     = flask.session['sessionData']['sessid'],
         header     = "On your command.",
-        stats      = responseWelcome[3:12],
+        stats      = eval(dataWelcome),
         **gameLoopQuestions()
     )
