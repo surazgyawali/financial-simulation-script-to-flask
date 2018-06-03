@@ -154,7 +154,6 @@ def restart():
 def error():
     if flask.session.get('sessionData'):
         sessionId = flask.session['sessionData']['sessid']
-    flask.session.clear()
     return render_template(
         'error.djhtml',
         header   = 'Uh oh!!! :(',
