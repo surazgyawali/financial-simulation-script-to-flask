@@ -13,9 +13,6 @@ from game.utilities import *
 @app.route('/')
 @app.route('/index')
 def index():
-    if flask.session.get('sessionData'):
-        sessionId = flask.session['sessionData']['sessid']
-    sessionId = None
     return flask.render_template(
         'welcome.djhtml',
         header   = 'Greetings!!!',
@@ -26,7 +23,7 @@ def index():
                     "Your job is to ensure the growth of the platform to profitability.",
                     "Do this by managing the speed you grow the platform and choosing the best method of funding to minimize your company's Weighted Average Cost of Capital (WACC)."
                     ],
-        sessid   = sessionId,
+        sessid   = getSessionId(),
         introHeader = "Hi There!!!!",
         introBlabel   = "Next >>",
         id       = 'gameStart'
@@ -152,15 +149,14 @@ def restart():
 
 @app.route('/error')
 def error():
-    if flask.session.get('sessionData'):
-        sessionId = flask.session['sessionData']['sessid']
+
     return render_template(
         'error.djhtml',
         header   = 'Uh oh!!! :(',
         messages = ['Sorry, Something went wrong.','Please restart the game.'],
         blabel   = "Why not??",
         id       = "gameStart",
-        sessid   = sessionId
+        sessid   = getSessionId()
         )
 
 
@@ -174,7 +170,7 @@ def hireFire(dataHireFire):
             question   = "The moment has come.",
             uri        = '/game/hire-fire',
             field_name = 'hire',
-            sessid     = flask.session['sessionData']['sessid']
+            sessid     = getSessionId()
         )
 
 
@@ -185,7 +181,7 @@ def platformIncomeStatement(dataPIS):
         header     = "Platform Income Statement",
         stats      = eval(dataPIS),
         messages   = ["Go on, what would you like to do now??"],
-        sessid     = flask.session['sessionData']['sessid'],
+        sessid     = getSessionId() ,
         **gameLoopQuestions()
     )
 
@@ -195,7 +191,7 @@ def platformBalanceSheet(dataPBS):
     return flask.render_template(
         'game.djhtml',
         header   = "Platform Balance Sheet.",
-        sessid     = flask.session['sessionData']['sessid'],
+        sessid     = getSessionId() ,
         stats    = eval(dataPBS),
         messages = ["Keep up the good business.What next??"],
         **gameLoopQuestions()
@@ -208,7 +204,7 @@ def platformCashflowStatement(dataPCS):
         'game.djhtml',
         header   = "Platform Cashflow statement.",
         stats    = eval(dataPCS),
-        sessid     = flask.session['sessionData']['sessid'],
+        sessid     = getSessionId() ,
         messages = ["What will be your next command??"],
         **gameLoopQuestions()
     )
@@ -220,7 +216,7 @@ def loanPerformance(dataLP):
         'game.djhtml',
         header   = "Loan Performance",
         stats    = eval(dataLP),
-        sessid   = flask.session['sessionData']['sessid'],
+        sessid   = getSessionId() ,
         messages = ["What would you like to do next ??"],
         **gameLoopQuestions()
     )
@@ -233,7 +229,7 @@ def loanBuyerCash(dataLBC):
         header   = "Loan buyer cash.",
         stats    = eval(dataLBC),
         messages = ["What could be the next step to success??"],
-        sessid     = flask.session['sessionData']['sessid'],
+        sessid     = getSessionId() ,
         **gameLoopQuestions()
     )
 
@@ -246,7 +242,7 @@ def sellLoans(dataSL):
         return flask.render_template(
             'game.djhtml',
             header   = "Oops!!",
-            sessid     = flask.session['sessionData']['sessid'],
+            sessid     = getSessionId() ,
             stats    = ["Buyer A already purchased. Please choose another option."],
             messages = ["What would you like to do next ??"],
             **gameLoopQuestions()
@@ -255,7 +251,7 @@ def sellLoans(dataSL):
         'sellLoans.djhtml',
         header     = "Let's sell some Loans.",
         uri        = '/game/sell-loans',
-        sessid     = flask.session['sessionData']['sessid'],
+        sessid     = getSessionId(),
         question   = "How much would you like to sell (enter 0 to not sell)?",
         warning    = responseSellLoans[1],
         limit      = responseSellLoans[2],
@@ -268,7 +264,7 @@ def securitizeLoans(dataSecuritizeLoans):
         'securitizeLoans.djhtml',
         header     = "Let's Securitize some Loans.",
         uri        = '/game/securitize-loans',
-        sessid     = flask.session['sessionData']['sessid'],
+        sessid     = getSessionId(),
         info       = eval(dataSecuritizeLoans),
         question   = "How large would you like buyer D's tranche to be (enter 0 to not sell)?",
         field_name = "secure"
@@ -280,7 +276,7 @@ def sellIntoCreditFacility(dataSICF):
         'securitizeLoans.djhtml',
         header     = "Sell into credit facility.",
         uri        = '/game/sell-into-credit-facility',
-        sessid     = flask.session['sessionData']['sessid'],
+        sessid     = getSessionId(),
         question   = "How much would you like to sell (enter 0 to not sell)?",
         info      = eval(dataSICF),
         field_name = 'sellFacility'
@@ -292,7 +288,7 @@ def creditFacilityInfo(dataCFI):
     return flask.render_template(
         'game.djhtml',
         header   = "Credit Facility Info",
-        sessid     = flask.session['sessionData']['sessid'],
+        sessid     = getSessionId(),
         stats    = eval(dataCFI),
         messages = ["What would you like to do next ??"],
         **gameLoopQuestions()
@@ -311,7 +307,7 @@ def nextQuarter(dataNQ):
     return render_template(
         'game.djhtml',
         header     = "Congratulations.",
-        sessid     = flask.session['sessionData']['sessid'],
+        sessid     = getSessionId() ,
         stats      = eval(dataNQ),
         **gameLoopQuestions()
     )
@@ -323,6 +319,6 @@ def main(dataWelcome):
         'game.djhtml',
         header     = "On your command.",
         stats      = eval(dataWelcome),
-        sessid     = flask.session['sessionData']['sessid'],
+        sessid     = getSessionId(),
         **gameLoopQuestions()
     )

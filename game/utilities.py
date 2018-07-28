@@ -10,22 +10,6 @@ from game.app import app
 
 
 def send_post_request():
-    # if flask.session.get("sessionData") is None:
-    #     try:
-    #         response = requests.post(flask.request.url_root + "api/game")
-    #         jsonData = response.json()
-    #         flask.session["sessionData"] = jsonData
-    #         responseMessage = jsonData["data"]
-    #         return responseMessage
-
-    #     except requests.exceptions.RequestException as e:
-    #         return
-    #     except KeyError as e:
-    #         """key error"""
-    #         return
-    #     except Exception as e:
-    #         """uncatched exception"""
-    #         return
 
     try:
         response = requests.post(
