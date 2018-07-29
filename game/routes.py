@@ -7,7 +7,7 @@ from flask import url_for
 from flask import request
 
 from game.app import app
-from game.utilities import *
+from game.utilities import send_get_request,send_post_request,game_loop,gameLoopQuestions,getSessionId,validateResponse
 
 
 @app.route('/')
