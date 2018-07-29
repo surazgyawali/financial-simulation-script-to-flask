@@ -31,7 +31,10 @@ def send_post_request():
 
 def send_get_request(response):
     """returns gamedata when passed response"""
-    headerData = {"sessid": getSessionId(), "message": response}
+    headerData = {
+            "sessid": getSessionId(),
+            "message": response
+        }
     try:
         response = requests.get(flask.request.url_root + "api/game", headers=headerData)
         jResponse = response.json()
@@ -91,7 +94,6 @@ def validateResponse(response):
 
 
 def getSessionId():
-    queue = app.out_queue
-    sessionId = list(queue.keys())[-1] if queue else None
+    sessionId = list(app.in_queue.keys())[-1] if app.in_queue else None
     print("\nsesid:",sessionId)
     return sessionId
