@@ -16,7 +16,7 @@
     <form action="{{uri}}" method='GET' class="input-group-text d-flex justify-content-around">
         <div class="input-group">
             <input type="number" class="form-control" placeholder="Place the amount here"
-            type="number" min = 0 max = {{ limit }} step = 1 name = {{field_name}}>
+            type="number" min = 0 max = {{ limit }} step = 1 name = {{field_name}} autofocus required>
             <div class="input-group-prepend">
                 <button class="btn btn-success" type="submit">Sell</button>
             </div>
