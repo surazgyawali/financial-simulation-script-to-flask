@@ -7,22 +7,27 @@ from flask import url_for
 from flask import request
 
 from game.app import app
-
+sessionId = None
 
 def send_post_request():
 
     try:
+        global sessionId
         response = requests.post(
             flask.request.url_root + "api/game",
-            headers={"sessid": getSessionId()},
+            headers={"sessid": sessionId},
         )
         jsonData = response.json()
         responseMessage = jsonData["data"]
+
+        sessionId =  jsonData["sessid"]
         return responseMessage
+
     except requests.exceptions.RequestException as e:
         return
     except KeyError as e:
         """key error"""
+        sessionId = None
         return
     except Exception as e:
         """uncatched exception"""
@@ -31,10 +36,7 @@ def send_post_request():
 
 def send_get_request(response):
     """returns gamedata when passed response"""
-    headerData = {
-            "sessid": getSessionId(),
-            "message": response
-        }
+    headerData = {"sessid": getSessionId(), "message": response}
     try:
         response = requests.get(flask.request.url_root + "api/game", headers=headerData)
         jResponse = response.json()
@@ -45,6 +47,7 @@ def send_get_request(response):
         """ request exception"""
         return e
     except KeyError as e:
+        sessionId = None
         """key error"""
         return
     except Exception as e:
@@ -94,6 +97,8 @@ def validateResponse(response):
 
 
 def getSessionId():
-    sessionId = list(app.in_queue.keys())[-1] if app.in_queue else None
+    global sessionId
     print("\nsesid:",sessionId)
+    print("\ninQ:",app.in_queue)
+    print("\noutQ:",app.out_queue)
     return sessionId

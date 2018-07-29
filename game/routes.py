@@ -7,7 +7,7 @@ from flask import url_for
 from flask import request
 
 from game.app import app
-from game.utilities import send_get_request,send_post_request,game_loop,gameLoopQuestions,getSessionId,validateResponse
+from game.utilities import *
 
 
 @app.route('/')
@@ -31,6 +31,10 @@ def index():
 
 @app.route('/game',methods = ['GET','POST'])
 def gameStart():
+
+    print("\n\nOut-Queue:",app.out_queue)
+    print("\n\in-Queue:",app.in_queue)
+
     if request.method == 'POST':
         responseWelcome = send_post_request()
         if validateResponse(responseWelcome):
